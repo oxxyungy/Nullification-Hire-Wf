@@ -28,10 +28,17 @@ The service accepts a request to nullify a hire, validates whether the hire can 
 }
 ```
 
+## Authorization
+
+The service acts as an OAuth 2.0 Resource Server and validates JWT Bearer access tokens with Spring Security. To call `POST /api/v1/hire-nullifications`, a token must contain the `hire.nullification.write` scope; Spring maps it to the `SCOPE_hire.nullification.write` authority.
+
+Configure the trusted issuer through `JWT_ISSUER_URI`, for example the URL of a Keycloak realm. Requests without a bearer token receive `401 Unauthorized`; authenticated tokens without the required scope receive `403 Forbidden`.
+
 ## Technology stack
 
 - Java 21
 - Spring Boot 3
+- Spring Security and OAuth 2.0 Resource Server
 - Spring Web and Bean Validation
 - Spring Data JPA
 - PostgreSQL
