@@ -1,6 +1,24 @@
 spring:
   application:
     name: nullification-hire-wf
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:nullification}
+    username: ${DB_USERNAME:nullification}
+    password: ${DB_PASSWORD:nullification}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        default_schema: public
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 server:
-  port: 8080
+  error:
+    include-message: never
