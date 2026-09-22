@@ -42,14 +42,26 @@ public class HireNullificationRequest {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    @OneToOne(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
+    @OneToOne(
+            mappedBy = "request",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            optional = false
+    )
     private NullificationData nullificationData;
 
     protected HireNullificationRequest() {
     }
 
-    private HireNullificationRequest(UUID id, UUID personId, String hireId, NullificationReason reason,
-                                     UUID requestedBy, String comment, Instant createdAt) {
+    private HireNullificationRequest(
+            UUID id,
+            UUID personId,
+            String hireId,
+            NullificationReason reason,
+            UUID requestedBy,
+            String comment,
+            Instant createdAt
+    ) {
         this.id = id;
         this.personId = personId;
         this.hireId = hireId;
@@ -60,9 +72,23 @@ public class HireNullificationRequest {
         this.createdAt = createdAt;
     }
 
-    public static HireNullificationRequest create(UUID personId, String hireId, NullificationReason reason,
-                                                   UUID requestedBy, String comment, Instant createdAt) {
-        return new HireNullificationRequest(UUID.randomUUID(), personId, hireId, reason, requestedBy, comment, createdAt);
+    public static HireNullificationRequest create(
+            UUID personId,
+            String hireId,
+            NullificationReason reason,
+            UUID requestedBy,
+            String comment,
+            Instant createdAt
+    ) {
+        return new HireNullificationRequest(
+                UUID.randomUUID(),
+                personId,
+                hireId,
+                reason,
+                requestedBy,
+                comment,
+                createdAt
+        );
     }
 
     public void attachNullificationData(NullificationData data) {
@@ -72,6 +98,26 @@ public class HireNullificationRequest {
 
     public UUID getId() {
         return id;
+    }
+
+    public UUID getPersonId() {
+        return personId;
+    }
+
+    public String getHireId() {
+        return hireId;
+    }
+
+    public NullificationReason getReason() {
+        return reason;
+    }
+
+    public UUID getRequestedBy() {
+        return requestedBy;
+    }
+
+    public String getComment() {
+        return comment;
     }
 
     public RequestStatus getStatus() {

@@ -40,8 +40,12 @@ public class NullificationData {
     protected NullificationData() {
     }
 
-    public NullificationData(LocalDate nullificationDate, String positionId,
-                             UUID signerPersonId, String signerEmployeeId) {
+    public NullificationData(
+            LocalDate nullificationDate,
+            String positionId,
+            UUID signerPersonId,
+            String signerEmployeeId
+    ) {
         this.nullificationDate = nullificationDate;
         this.positionId = positionId;
         this.signerPersonId = signerPersonId;
@@ -54,5 +58,17 @@ public class NullificationData {
 
     public LocalDate getNullificationDate() {
         return nullificationDate;
+    }
+
+    public String getPositionId() {
+        return positionId;
+    }
+
+    public UUID getSignerPersonId() {
+        return signerPersonId;
+    }
+
+    public String getSignerEmployeeId() {
+        return signerEmployeeId;
     }
 }

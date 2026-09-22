@@ -61,3 +61,41 @@ Successful creation returns `202 Accepted`:
 ```
 
 A repeated request for the same `hireId` returns `409 Conflict`.
+
+## Get workflow
+
+```http
+GET /api/v1/hire-nullifications/{workflowId}
+```
+
+For an existing workflow, the service returns `200 OK`:
+
+```json
+{
+  "workflowId": "f4a3fd23-0392-4d8c-bb80-aa09f6ceee77",
+  "hireId": "HIRE-2026-001245",
+  "personId": "11111111-1111-1111-1111-111111111111",
+  "reason": "CANDIDATE_WITHDREW",
+  "requestedBy": "22222222-2222-2222-2222-222222222222",
+  "comment": "Candidate withdrew consent before hire",
+  "status": "PENDING_VALIDATION",
+  "createdAt": "2026-09-22T20:15:00Z",
+  "nullificationData": {
+    "nullificationDate": "2026-09-22",
+    "positionId": "37654321",
+    "signerPersonId": null,
+    "signerEmployeeId": null
+  }
+}
+```
+
+When `workflowId` is not found, the service returns `404 Not Found` as RFC 7807 Problem Details:
+
+```json
+{
+  "type": "https://nullification-hire-wf/errors/hire-nullification-not-found",
+  "title": "Hire nullification workflow not found",
+  "status": 404,
+  "detail": "Hire nullification workflow not found: f4a3fd23-0392-4d8c-bb80-aa09f6ceee77"
+}
+```
