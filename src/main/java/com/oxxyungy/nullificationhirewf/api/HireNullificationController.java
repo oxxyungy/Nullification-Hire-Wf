@@ -1,8 +1,11 @@
 package com.oxxyungy.nullificationhirewf.api;
 
+import com.oxxyungy.nullificationhirewf.application.CreateHireNullificationService;
+import com.oxxyungy.nullificationhirewf.application.FindHireNullificationService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,27 +18,27 @@ import java.util.UUID;
 @RequestMapping("/api/v1/hire-nullifications")
 public class HireNullificationController {
 
+    private final CreateHireNullificationService createService;
+    private final FindHireNullificationService findService;
+
+    public HireNullificationController(
+            CreateHireNullificationService createService,
+            FindHireNullificationService findService
+    ) {
+        this.createService = createService;
+        this.findService = findService;
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public CreateHireNullificationResponse create(@Valid @RequestBody CreateHireNullificationRequest request) {
-        return new CreateHireNullificationResponse(
-                UUID.randomUUID(),
-                request.hireId(),
-                "PENDING_VALIDATION"
-        );
+    public CreateHireNullificationResponse create(
+            @Valid @RequestBody CreateHireNullificationRequest request
+    ) {
+        return createService.create(request);
     }
 
-    public record CreateHireNullificationRequest(
-            @NotBlank String hireId,
-            @NotBlank String reason,
-            @NotBlank String requestedBy
-    ) {
-    }
-
-    public record CreateHireNullificationResponse(
-            UUID workflowId,
-            String hireId,
-            String status
-    ) {
+    @GetMapping("/{workflowId}")
+    public HireNullificationResponse findById(@PathVariable UUID workflowId) {
+        return findService.findById(workflowId);
     }
 }
